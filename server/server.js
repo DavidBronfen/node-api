@@ -1,5 +1,5 @@
 // TODO: make this work.
-// if yuo go to localhost:3000 the app
+// if you go to localhost:3000 the app
 // there is expected crud to be working here
 var express = require('express');
 var bodyParser = require('body-parser');
@@ -18,10 +18,39 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 
-var lions = [];
+var lions = [
+  {
+    id: 1,
+    name: 'Hassan',
+    age: '4 months',
+    gender: 'Male',
+  }
+];
 var id = 0;
 
-// TODO: make the REST routes to perform CRUD on lions
+app.get('/lions', function(req, res) {
+  res.json(lions);
+});
+
+app.get('/lions/:id', function(req, res) {
+  var lion = lions.filter(function(lion) {
+    return lion.id == req.params.id;
+  });
+
+  if(lion != 'undefined') {
+    res.json(lion);
+  }
+});
+
+app.post('/lions', function(req, res) {
+  var newLion = req.body
+  id = id + 1;
+  newLion.id = id;
+  
+  lions.push(newLion);
+
+  res.json(newLion);
+});
 
 app.listen(3000);
 console.log('on port 3000');
