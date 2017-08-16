@@ -26,6 +26,7 @@ var lions = [
     gender: 'Male',
   }
 ];
+
 var id = 0;
 
 app.get('/lions', function(req, res) {
@@ -40,16 +41,44 @@ app.get('/lions/:id', function(req, res) {
   if(lion != 'undefined') {
     res.json(lion);
   }
+
 });
 
 app.post('/lions', function(req, res) {
-  var newLion = req.body
+  var newLion = req.body;
   id = id + 1;
   newLion.id = id;
-  
+
   lions.push(newLion);
 
   res.json(newLion);
+
+});
+
+app.put('/lions/:id', function(req, res) {
+  var updateLion = req.body;
+
+  var delta = lions.findIndex(function(lion) {
+    return lion.id == req.params.id;
+  });
+
+  if (!lions[delta]) {
+    res.send();
+  } else {
+    var updatedLion = Object.assign(lions[delta], updateLion);
+    res.json(updatedLion);
+  }
+
+});
+
+app.delete('lions/:id', function(req, res) {
+  var index = lions.findIndex(function(lion) {
+    return lion.id == req.params.id;
+  });
+
+  lions = lions.splice(index, 1);
+
+  res.json(lions);
 });
 
 app.listen(3000);
