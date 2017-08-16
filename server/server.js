@@ -58,11 +58,17 @@ app.post('/lions', function(req, res) {
 app.put('/lions/:id', function(req, res) {
   var updateLion = req.body;
 
-  var delta = lions.findIndex(function(lion) {
+  // For safety we checking if the object we have recived from the client
+  // contain an ID if so we just delete it.
+  if (updateLion.id) {
+    delete updateLion.id;
+  }
+
+  var index = lions.findIndex(function(lion) {
     return lion.id == req.params.id;
   });
 
-  if (!lions[delta]) {
+  if (!lions[index]) {
     res.send();
   } else {
     var updatedLion = Object.assign(lions[delta], updateLion);
@@ -76,9 +82,10 @@ app.delete('lions/:id', function(req, res) {
     return lion.id == req.params.id;
   });
 
-  lions = lions.splice(index, 1);
+  deleteLion = lions[index];
+  lions.splice(index, 1);
 
-  res.json(lions);
+  res.json(deleteLion);
 });
 
 app.listen(3000);
