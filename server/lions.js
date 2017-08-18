@@ -20,17 +20,28 @@ var updateId = function(req, res, next) {
   next();
 }
 
+lionRouter.param('id', function(req, res, next, id) {
+  var lion = _.find(lions, {id: id});
+
+  if (lion) {
+    req.lion - lion;
+    next();
+  } else {
+    res.send();
+  }
+});
+
 lionRouter.get('/', function(req,res) {
   res.json(lions);
 });
 
 lionRouter.get('/:id', function(req, res) {
-  var lion = req.todo;
+  var lion = req.lion;
   res.json(lion || {});
 });
 
 lionRouter.post('/', updateId, function(req, res) {
-  var lion  req.body;
+  var lion = req.body;
 
   lions.push(lion);
 
