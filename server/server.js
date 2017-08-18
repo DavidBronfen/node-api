@@ -20,8 +20,11 @@ var id = 0;
 
 var updateId = function(req, res, next) {
   // assign increamented id converted to a string.
-  id = id + 1 + '';
-  req.body.id = id;
+  if (!req.body.id) {
+    id = id + 1 + '';
+    req.body.id = id;
+  }
+  next();
 };
 
 app.use(morgan('dev'))
@@ -79,7 +82,9 @@ app.put('/lions/:id', function(req, res) {
 });
 
 app.use(function(err, req, res, next) {
-  console.log('Error thrown: ', err);
+  if (err) {
+    res.status(500).send(err)
+  }
 });
 
 app.listen(3000);
