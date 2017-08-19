@@ -5,7 +5,7 @@ var _ = require('lodash');
 var morgan = require('morgan');
 
 var lionRouter = require('./lions');
-var tigerRouter = require('./tigers')
+var tigerRouter = require('./tigers');
 
 app.use(morgan('dev'));
 app.use(express.static('client'));
