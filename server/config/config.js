@@ -19,8 +19,10 @@ try {
   envConfig = require('./' + config.env);
   // just making sure the require actually
   // got something back :)
+  envConfig = envConfig || {};
 } catch (e) {
-    envConfig = {}
+  console.log(e);
+  envConfig = {}
 }
 
 // merge the two config files together
