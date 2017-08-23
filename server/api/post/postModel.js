@@ -10,20 +10,12 @@ var PostSchema = new Schema({
 
   text: {
     type: String,
-    required: true,
-  },
-
-  author: {
-    type: Schema.Types.ObjectId,
-    ref: 'user',
     required: true
   },
+  // array of ids from the users
+  author: {type: Schema.Types.ObjectId, ref: 'user'},
 
-  categories: [{
-    type: Schema.Types.ObjectId,
-    ref: 'category'
-  }]
-  
+  categories: [{type: Schema.Types.ObjectId, ref: 'category'}]
 });
 
 module.exports = mongoose.model('post', PostSchema);
