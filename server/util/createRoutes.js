@@ -9,5 +9,4 @@ module.exports = function(controller, router) {
     .get(controller.getOne)
     .put(controller.put)
     .delete(controller.delete)
-
 }
