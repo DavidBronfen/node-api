@@ -2,8 +2,8 @@ var Category = require('./categoryModel');
 var _ = require('lodash');
 
 exports.params = function(req, res, next, id) {
-  // use the id and attach the category to req
-
+  // use the id and attach the category to req.
+  // Scotts solution.
   Category.findById(id)
     .then(function(category) {
       if (!category) {
