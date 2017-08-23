@@ -18,7 +18,8 @@ exports.params = function(req, res, next, id) {
 };
 
 exports.get = function(req, res, next) {
-  // need to populate here
+  // need to populate here.
+  // Scotts solution.
   Post.find({})
   .populate('author categories')
   .exec()
