@@ -1,41 +1,32 @@
 var Post = require('./postModel');
 var _ = require('lodash');
+var logger = require('../../util/logger');
 
 exports.params = function(req, res, next, id) {
   Post.findById(id)
-  .populate('author categories')
-  .exec()
-  .then(function(post) {
-    if (!post) {
-      next(new Error('No post with that id'));
-    } else {
-      req.post = post;
-      next();
-    }
-  }, function(err) {
-    next(err);
-  });
+    .populate('author')
+    .exec()
+    .then(function(post) {
+      if (!post) {
+        next(new Error('No post with that id'));
+      } else {
+        req.post = post;
+        next();
+      }
+    }, function(err) {
+      next(err);
+    });
 };
 
 exports.get = function(req, res, next) {
-  // need to populate here.
-  // Scotts solution.
   Post.find({})
-  .populate('author categories')
-  .exec()
-  .then(function(posts) {
-    res.json(posts);
-  }, function(err) {
-    next(err);
-  });
-
-  // My solution
-  // Post.find({})
-  // .populate('author categories')
-  // .exec(function (err, posts) {
-  //   if (err) return handleError(err);
-  //   res.json(posts);
-  // });
+    .populate('author categories')
+    .exec()
+    .then(function(posts){
+      res.json(posts);
+    }, function(err){
+      next(err);
+    });
 };
 
 exports.getOne = function(req, res, next) {
@@ -61,11 +52,11 @@ exports.put = function(req, res, next) {
 
 exports.post = function(req, res, next) {
   var newpost = req.body;
-
   Post.create(newpost)
     .then(function(post) {
       res.json(post);
     }, function(err) {
+      logger.error(err);
       next(err);
     });
 };
